@@ -4,11 +4,19 @@ from django.views.decorators.csrf import csrf_exempt
 from cms_put.models import *
 
 
+def printAll(request):
+    listaPaginas = Pages.objects.all()
+    html = "<ul>Lista de Paginas:"
+    for pagina in listaPaginas:
+        html += "<li>" + pagina.name + "</li>"
+    html += "</ul>"
+    return html
 # Create your views here.
 @csrf_exempt  #SE UTILIZA PARA QUE NOS PERMITA REALIZAR EL POST
 def main(request):
     if request.method == 'GET':
-        htmlAnswer = "<form id='paginas' method='POST'>" \
+        htmlAnswer = printAll(request)
+        htmlAnswer += "<form id='paginas' method='POST'>" \
             + "<label> Introduce el recurso y el contenido del recurso" \
             + "</br></label>" \
             + "<input name='name' type='text'>" \
